@@ -1,0 +1,25 @@
+Observation_sequence:
+[0 0 0 1 0 0 1 1 1 0 1 1 0 0 0 0 1 1 1 0 1 0 0 1 1] 
+
+Start_probability:
+[0.6 0.4] 
+
+Transition_Probability:
+[[0.7 0.3]
+ [0.4 0.6]] 
+
+Emission_Probability:
+[[0.6 0.4]
+ [0.6 0.4]] 
+
+==================================
+
+After Training:
+Transition_Probability:
+[[5.07187236e-01 4.92812764e-01]
+ [1.62971389e-08 9.99999984e-01]] 
+
+Emission_Probability:
+[[1.00000000e+00 2.11121944e-36]
+ [4.85468162e-01 5.14531838e-01]] 
+
