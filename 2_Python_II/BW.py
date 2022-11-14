@@ -74,7 +74,7 @@ def BW(theta0,theta,psi,X,it,plot=1):
 		T1_2.append(psi[0,1])
 		T2_1.append(psi[1,0])
 		T2_2.append(psi[1,1])
-	model = hmm.MultinomialHMM(n_components=n_states,n_iter=1000,tol=1e-9,init_params=" ",params="te")
+	model = hmm.CategoricalHMM(n_components=n_states,n_iter=1000,tol=1e-9,init_params=" ",params="te")
 	model.startprob_=theta0
 	model.transmat_=np.copy(theta)
 	model.emissionprob_=np.copy(psi)	
@@ -121,7 +121,7 @@ def BWlib(theta0,theta,psi,X,it,plot=1):
 	T1_2=[psi[0,1]]
 	T2_1=[psi[1,0]]
 	T2_2=[psi[1,1]]
-	model=hmm.MultinomialHMM(n_components=n_states,n_iter=1,tol=1e-5,init_params=" ",params="te")
+	model=hmm.CategoricalHMM(n_components=n_states,n_iter=1,tol=1e-5,init_params=" ",params="te")
 	model.startprob_=theta0
 	model.transmat_=theta
 	model.emissionprob_=psi			
@@ -138,7 +138,7 @@ def BWlib(theta0,theta,psi,X,it,plot=1):
 		T1_2.append(model.emissionprob_[0,1])
 		T2_1.append(model.emissionprob_[1,0])
 		T2_2.append(model.emissionprob_[1,1])
-	model = hmm.MultinomialHMM(n_components=n_states,n_iter=1000,tol=1e-9,init_params=" ",params="te")
+	model = hmm.CategoricalHMM(n_components=n_states,n_iter=1000,tol=1e-9,init_params=" ",params="te")
 	model.startprob_=theta0
 	model.transmat_=np.copy(theta)
 	model.emissionprob_=np.copy(psi)	
@@ -197,15 +197,25 @@ def init_simulator(n,m,l,I,filename):
 	res=[word + 'dt' for word in dE]
 	dE=',d'.join(res)
 	lines = open(filename).read().splitlines()
-	lines[106]='    '+','.join(E)+'=p0'
-	lines[110+len(E)]='    return np.array(['+dE+'])'
-	lines[181+len(E)]="    svars="+str(E)
-	lines[183+len(E)] = "    p0 ="+str(I)
+	Lstart=1
+	for line in lines: 
+	    if line == "def odesystem(p0, t0, r):":
+	        break
+	    Lstart+=1
+	lines[Lstart]='    '+','.join(E)+'=p0'
+	lines[Lstart+4+len(E)]='    return np.array(['+dE+'])'
+	Lstart=1
+	for line in lines: 
+	    if line == "        logger.warning('Deprecated argument: --pyplot_labels.')":
+	        break
+	    Lstart+=1
+	lines[Lstart+1]="    svars="+str(E)
+	lines[Lstart+3] = "    p0 ="+str(I)
 	open(filename,'w').write('\n'.join(lines))
 	start=E.index('T01')
 	return start
 def crn_Liklihood(filenamecsv,start,Obs):
-	model = hmm.MultinomialHMM(n_components=2,n_iter=1,tol=1e-9,init_params=" ",params="te")
+	model = hmm.CategoricalHMM(n_components=2,n_iter=1,tol=1e-9,init_params=" ",params="te")
 	t = []
 	T01=[]
 	T02=[]
@@ -299,7 +309,7 @@ def print_conc_rounded(start,Y1,Y2):
 	print("Transition:\n",pt)
 	print("Emission:\n",pe)
 def crn_Liklihoodp(filenamecsv,start,Obs):
-	model = hmm.MultinomialHMM(n_components=2,n_iter=1,tol=1e-9,init_params=" ",params="te")
+	model = hmm.CategoricalHMM(n_components=2,n_iter=1,tol=1e-9,init_params=" ",params="te")
 	t = []
 	T01=[]
 	T02=[]
