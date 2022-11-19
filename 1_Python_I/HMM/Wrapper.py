@@ -2,12 +2,11 @@
 ### author: Abhishek Behera                ###
 ### email : abhishek.enlightened@gmail.com ###
 ###         abhishekb@ee.iitb.ac.in        ###
-### date  : 27 Mar 2019                    ###
 ##############################################
 
 import os,sys
 import numpy as np
-from X_Model_to_HMM_hom import translate_model as translate
+from Model_to_CRN import translate_model as translate
 sys.path.insert(0, os.path.join('..','..','CRN_Engines'))
 from DMAK_CPU import DMAK_CPU as DMAK
 

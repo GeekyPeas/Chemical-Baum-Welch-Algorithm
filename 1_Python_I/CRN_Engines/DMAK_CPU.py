@@ -2,7 +2,6 @@
 ### author: Abhishek Behera                ###
 ### email : abhishek.enlightened@gmail.com ###
 ###         abhishekb@ee.iitb.ac.in        ###
-### date  : 24 May 2018                    ###
 ##############################################
 
 import numpy as np
