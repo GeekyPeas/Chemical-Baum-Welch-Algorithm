@@ -2,6 +2,7 @@
 ### author: Abhishek Behera                ###
 ### email : abhishek.enlightened@gmail.com ###
 ###         abhishekb@ee.iitb.ac.in        ###
+### date  : 29 Mar 2019                    ###
 ##############################################
 
 import sys,os
@@ -23,22 +24,22 @@ def BaumWelch(model_file,path=''):
     HMM = read_model(model_file,path)
     Obs = [HMM[1].index(o) for o in HMM[2]]
     Obs = np.array(Obs).reshape(-1,1)
-    n_states,n_observations = map(len,HMM[:2])
-    start_probability = np.array(map(float,HMM[3]))
+    n_states,n_observations = list(map(len,HMM[:2]))
+    start_probability = np.array(list(map(float,HMM[3])))
     transition_probability = []
     for i in range(n_states):
-        transition_probability += [map(float,HMM[4+i])]
+        transition_probability += [list(map(float,HMM[4+i]))]
     transition_probability = np.array(transition_probability)
     emission_probability = []
     for a in range(n_observations):
-        emission_probability += [map(float,HMM[4+n_states+a])]
+        emission_probability += [list(map(float,HMM[4+n_states+a]))]
     emission_probability = np.array(emission_probability)
 
-    model = hmm.MultinomialHMM(n_components=n_states,n_iter=500,tol=1e-10,init_params="")
+    model = hmm.CategoricalHMM(n_components=n_states,n_iter=1000,tol=1e-9,init_params=" ",params="te")
     model.startprob_=start_probability
     model.transmat_=transition_probability
     model.emissionprob_=emission_probability
-
+    # print(Obs)
     print("Viterbi:\n",model.decode(Obs, algorithm="viterbi"),"\n")
 
     model = model.fit(Obs)

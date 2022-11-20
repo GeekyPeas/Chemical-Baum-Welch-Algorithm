@@ -8,7 +8,7 @@ import numpy as np
 import sys, os
 import itertools
 
-sys.path.insert(0, os.path.join('..','..','CRN_Engines'))
+sys.path.insert(0, os.path.join('..','CRN_Engines'))
 from Reaction_Utils import display, write
 
 if sys.version_info[0] == 2:
@@ -205,7 +205,7 @@ def translate_model(model_file,
         display(reaction_system)
     
     if save_reaction:
-        output = os.path.join(path,'_CRN.'.join(model_file.split('.')))
+        output = os.path.join(path,model_file.split('.txt')[0]+"_CRN.txt")
         write(reaction_system,output,os.path.basename(__file__))
     return reaction_system
 

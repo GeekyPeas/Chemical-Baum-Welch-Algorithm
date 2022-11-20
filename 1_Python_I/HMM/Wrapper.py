@@ -7,7 +7,7 @@
 import os,sys
 import numpy as np
 from Model_to_CRN import translate_model as translate
-sys.path.insert(0, os.path.join('..','..','CRN_Engines'))
+sys.path.insert(0, os.path.join('..','CRN_Engines'))
 from DMAK_CPU import DMAK_CPU as DMAK
 
 for i in range(1,len(sys.argv)):
