@@ -177,7 +177,7 @@ def translate_model(model_file,
     if save_reaction:
         output = os.path.join(path,model_file.split('.txt')[0]+"_CRN.txt")
         write(reaction_system,output,os.path.basename(__file__))
-    return reaction_system
+    return obs, reaction_system
 
 if __name__ == '__main__':
     for i in range(1,len(sys.argv)):
