@@ -16,7 +16,7 @@ if sys.version_info[0]==2:
 def odes(conc,time,reactants,products,rates):
     return (products - reactants).dot(np.prod(conc**reactants.T,axis=1)*rates)
 
-def DMAK_CPU(reactants,products,rates,initial_conc,duration,num_steps,keep_path=False,do_plot=False,species=None):
+def DMAK_CPU(reactants,products,rates,initial_conc,duration,num_steps,keep_path=False,do_plot=False,species=None,abstol=1e-12,reltol=1e-6):
     # DMAK = deterministic mass action kinetics
     reactants = np.array(reactants)
     products = np.array(products)
@@ -26,7 +26,7 @@ def DMAK_CPU(reactants,products,rates,initial_conc,duration,num_steps,keep_path=
         
     t_index = np.linspace(0, duration, num_steps)
     conc = initial_conc
-    output = odeint(odes, conc, t_index, args = (reactants,products,rates))
+    output = odeint(odes, conc, t_index, args = (reactants,products,rates), atol=abstol, rtol=reltol)
     if keep_path:
         if do_plot:
             for i in range(output.shape[1]):

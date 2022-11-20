@@ -127,7 +127,7 @@ def translate_model(model_file,
                         [sp(a,['<dec>',str(N)]),sp(b,['<l>',str(N)]),sp(t,[str(N),str(N)]),sp(p,[str(N),'<sub>'])],
                         [sp(a,['<dec>','<i>']),sp(b,['<l>','<j>']),sp(t,['<i>','<j>']),sp(p,['<j>','<sub>'])],
                         [('<i>',[1,N]),('<j>',[1,N]),('<l>',[2,L])],
-                        ['<l>']]] #!!!!TODO: implement (i,j) != (N,N)
+                        ['<l>']]]
     # Maximization Step:
     meta_reactions += [[[sp(t,['<i>','<j>'])],
                         [sp(t,['<i>',str(N)])],
