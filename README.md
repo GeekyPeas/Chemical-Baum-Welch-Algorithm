@@ -11,5 +11,4 @@ In this repository 2 different source codes are provided for producing the same 
 
 # TODOS
 
-0. Add requirements.txt
-1. Add instructions to execute the code
+1. Add instructions to execute the code on README.md
