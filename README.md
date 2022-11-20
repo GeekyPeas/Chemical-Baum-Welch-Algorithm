@@ -9,12 +9,7 @@ In this repository 3 different source codes are provided for producing the same 
 ## Python-II
 
 
-## Julia
-
 # TODOS
 
 0. Add requirements.txt
 1. Add instructions to execute the code
-2. Delete code that is not necessary for this paper's submission
-3. Simulate using Catalyst.jl in Julia
-4. Tally with Julia simulations to resolve conflicts between `1_Python_I` and `2_Python_II`
