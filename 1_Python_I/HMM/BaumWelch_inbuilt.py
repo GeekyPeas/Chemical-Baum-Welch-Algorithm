@@ -17,7 +17,7 @@ def read_model(model_file,path):
     HMM = [line.split(',') for line in HMM]
     return HMM
 
-def BaumWelch(model_file,path=''):
+def BaumWelch_inbuilt(model_file,path=''):
     if path == '':
         path = os.path.realpath( os.path.join(os.getcwd(),os.path.dirname(__file__)))
 
@@ -52,4 +52,4 @@ def BaumWelch(model_file,path=''):
 
 if __name__ == '__main__':
     for i in range(1,len(sys.argv)):
-        BaumWelch(sys.argv[i])
+        BaumWelch_inbuilt(sys.argv[i])

@@ -6,8 +6,10 @@
 
 import os,sys
 import numpy as np
+path_to_file = os.path.realpath( os.path.join(os.getcwd(),os.path.dirname(__file__)))
+sys.path.insert(0, os.path.join(path_to_file,'..','CRN_Engines'))
+sys.path.insert(0, os.path.join(path_to_file,'..','HMM'))
 from Model_to_CRN import translate_model as translate
-sys.path.insert(0, os.path.join('..','CRN_Engines'))
 from DMAK_CPU import DMAK_CPU as DMAK
 
 for i in range(1,len(sys.argv)):

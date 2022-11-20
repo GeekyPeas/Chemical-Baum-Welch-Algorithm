@@ -17,6 +17,7 @@ def odes(conc,time,reactants,products,rates):
     return (products - reactants).dot(np.prod(conc**reactants.T,axis=1)*rates)
 
 def DMAK_CPU(reactants,products,rates,initial_conc,duration,num_steps,keep_path=False,do_plot=False,species=None):
+    # DMAK = deterministic mass action kinetics
     reactants = np.array(reactants)
     products = np.array(products)
     rates = np.array(rates)*1.0

@@ -7,8 +7,8 @@
 import numpy as np
 import sys, os
 import itertools
-
-sys.path.insert(0, os.path.join('..','CRN_Engines'))
+path_to_file = os.path.realpath( os.path.join(os.getcwd(),os.path.dirname(__file__)))
+sys.path.insert(0, os.path.join(path_to_file,'..','CRN_Engines'))
 from Reaction_Utils import display, write
 
 if sys.version_info[0] == 2:
@@ -40,37 +40,20 @@ def make_species(meta_species):
     return species
 
 def cx(meta_cplx,loops,var,obs,species):
-    # print("meta_cplx:",meta_cplx)
-    # print("loops:",loops)
-    # print("var:",var)
-    # print("obs:",obs)
-    # print("species:",species)
     arr = len(meta_cplx)
-    # print("arr:",arr)
     indices = [range(r[1][0],r[1][1]+1) for r in loops]
-    # print("indices:",indices)
     dummies = [r[0] for r in loops]
-    # print("dummies:",dummies)
     rid = dummies.index(var[0])
-    # print("rid:",rid)
     complexes = []
     for index in itertools.product(*indices):
-        # print("index:",index)
         cplx = meta_cplx
-        # print("cplx:",cplx)
         cplx = list(map(lambda c: c.replace('<sub>',obs[index[rid]-1]), cplx))
-        # print("cplx:",cplx)
         cplx = list(map(lambda c: c.replace('<inc>',str(index[rid]+1)), cplx))
-        # print("cplx:",cplx)
         cplx = list(map(lambda c: c.replace('<dec>',str(index[rid]-1)), cplx))
-        # print("cplx:",cplx)
         for i in range(len(loops)):
             cplx = list(map(lambda c: c.replace(dummies[i],str(index[i])), cplx))
-            # print("cplx:",cplx)
         cplx = list(map(species.index,cplx))
-        # print("cplx:",cplx)
         rep = np.zeros(len(species))
-        # print("rep:",rep)
         np.put(rep,cplx,np.ones(arr))
         complexes += [rep]
     return np.array(complexes)
@@ -110,11 +93,6 @@ def translate_model(model_file,
     a,b,g,x,t,p,o = ['\\alpha','\\beta','\\gamma','\\xi','\\theta','\\psi','O']
     meta_species = [[a,[L,N]],[b,[L,N]],[g,[L,N]],[x,[L,N,N]],[t,['*',N]],[t,[N,N]],[p,[N,M]],[o,[L,M]]]
     species = make_species(meta_species)
-
-    # for s in range(len(species)):
-    #     print species[i],s
-    #TODO: If I can code up for substituting arbitrary functions of arbitrary variables
-    #I have a pretty good translator for arbitrary CRN schemes actually
 
     meta_reactions = []
     # Forward Reaction Network:
@@ -168,14 +146,6 @@ def translate_model(model_file,
 
     #initialization...
     initial = np.zeros(len(species))
-
-    # # Delta initialization:
-    # for l in range(1,L+1):
-    #     for s in [a,b,g]:
-    #         loc = species.index(sp(s,[str(l),str(N)]))
-    #         initial[loc] = 1.0
-    #     loc = species.index(sp(x,[str(l),str(N),str(N)]))
-    #     initial[loc]=1.0
 
     # Symmetric initialization:
     for l in range(1,L+1):
