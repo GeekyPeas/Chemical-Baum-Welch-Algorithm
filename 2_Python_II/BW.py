@@ -121,7 +121,7 @@ def BWlib(theta0,theta,psi,X,it,plot=1):
 	T1_2=[psi[0,1]]
 	T2_1=[psi[1,0]]
 	T2_2=[psi[1,1]]
-	model=hmm.CategoricalHMM(n_components=n_states,n_iter=1,tol=1e-5,init_params=" ",params="te")
+	model=hmm.CategoricalHMM(n_components=n_states,n_iter=1,tol=1e-9,init_params=" ",params="te")
 	model.startprob_=theta0
 	model.transmat_=theta
 	model.emissionprob_=psi			

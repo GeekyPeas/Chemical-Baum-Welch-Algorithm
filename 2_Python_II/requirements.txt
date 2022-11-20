@@ -1,0 +1,10 @@
+crnsimulator==v0.9
+hmmlearn==0.2.8
+matplotlib==3.5.3
+numpy==1.21.6
+session_info==1.0.0
+IPython==7.34.0
+jupyter_client==7.4.5
+jupyter_core==4.11.2
+jupyterlab==3.5.0
+notebook==6.5.2
