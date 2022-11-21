@@ -37,9 +37,9 @@ def BaumWelch_inbuilt(model_file,path=''):
     emission_probability = np.array(emission_probability)
 
     
-    print("Start_probability:\n",start_probability,"\n")
-    print("Transition_Probability:\n",transition_probability,"\n")
-    print("Emission_Probability:\n",emission_probability,"\n")
+    print("Start_probability:\n",np.round(start_probability,3),"\n")
+    print("Transition_Probability:\n",np.round(transition_probability,3),"\n")
+    print("Emission_Probability:\n",np.round(emission_probability,3),"\n")
 
     model = hmm.CategoricalHMM(n_components=n_states,n_iter=1000,tol=1e-9,init_params=" ",params="te")
     model.startprob_=start_probability
@@ -56,9 +56,9 @@ def BaumWelch_inbuilt(model_file,path=''):
     print("==================================\n")
     print("After Training with Baum-Welch algorithm:")
 
-    print("Start probability:\n",model.startprob_,"\n")
-    print("Transition probability:\n",model.transmat_,"\n")
-    print("Emission probability:\n",model.emissionprob_,"\n")
+    print("Start probability:\n",np.round(model.startprob_,3),"\n")
+    print("Transition probability:\n",np.round(model.transmat_,3),"\n")
+    print("Emission probability:\n",np.round(model.emissionprob_,3),"\n")
 
     
 
