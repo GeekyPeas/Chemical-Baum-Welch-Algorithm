@@ -36,7 +36,6 @@ def BaumWelch_inbuilt(model_file,path=''):
         emission_probability += [list(map(float,HMM[4+n_states+a]))]
     emission_probability = np.array(emission_probability)
 
-    
     print("Start_probability:\n",np.round(start_probability,3),"\n")
     print("Transition_Probability:\n",np.round(transition_probability,3),"\n")
     print("Emission_Probability:\n",np.round(emission_probability,3),"\n")
@@ -46,12 +45,7 @@ def BaumWelch_inbuilt(model_file,path=''):
     model.transmat_=transition_probability
     model.emissionprob_=emission_probability
 
-
-
     model = model.fit(Obs)
-    # print(Obs)
-    # print("Viterbi:\n",model.decode(Obs, algorithm="viterbi"),"\n")
-    # print("Monitor:\n",model.monitor_,"\n")
 
     print("==================================\n")
     print("After Training with Baum-Welch algorithm:")
@@ -59,8 +53,6 @@ def BaumWelch_inbuilt(model_file,path=''):
     print("Start probability:\n",np.round(model.startprob_,3),"\n")
     print("Transition probability:\n",np.round(model.transmat_,3),"\n")
     print("Emission probability:\n",np.round(model.emissionprob_,3),"\n")
-
-    
 
 if __name__ == '__main__':
     for i in range(1,len(sys.argv)):
