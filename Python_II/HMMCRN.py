@@ -51,16 +51,14 @@ class HMMCRN:
                         self.ECRN.append([['A'+repr(i)+'_'+repr(t),'B'+repr(i)+'_'+repr(t),'G'+repr(N)+'_'+repr(t)],['A'+repr(i)+'_'+repr(t),'B'+repr(i)+'_'+repr(t),'G'+repr(i)+'_'+repr(t)],1])                    
         return(self.ECRN)
     
-    def MProj(self):
+    def MProj(self,trainstart=0):
         N=len(self.H)
         Nn=len(self.S)
         n=len(self.Ob)
-        #for i in range(1,N+1):
-        #        for j in range(1,N+1):
-        #            for t in range(1,n):
-        #                self.MCRN.append([['Xi'+repr(t)+'_'+repr(i)+repr(j)],['Xi'+repr(t)+'_'+repr(i)+repr(j),'T'+repr(i)+repr(j)],1])
-        #                for k in range(1,N+1):
-        #                    self.MCRN.append([['T'+repr(i)+repr(j),'Xi'+repr(t)+'_'+repr(i)+repr(k)],['Xi'+repr(t)+'_'+repr(i)+repr(k)],1])
+        if(trainstart):
+            for i in range(1,N):
+                self.MCRN.append([['G'+repr(N)+'_'+repr(1),'T0'+repr(i)],['G'+repr(N)+'_'+repr(1),'T0'+repr(N)],1])
+                self.MCRN.append([['G'+repr(i)+'_'+repr(1),'T0'+repr(N)],['G'+repr(i)+'_'+repr(1),'T0'+repr(i)],1])
         for i in range(1,N+1):
                 for k in range(1,Nn+1):
                     for t in range(1,n+1):
@@ -77,11 +75,11 @@ class HMMCRN:
         #                   self.MCRN.append([['G'+repr(t)+'_'+repr(j),'E'+repr(t)+'_'+`Nn`,'T'+repr(j)+'_'+repr(k)],['G'+repr(t)+'_'+repr(j),'E'+repr(t)+'_'+`Nn`,'T'+repr(j)+'_'+`Nn`],1])
         #                   self.MCRN.append([['G'+repr(t)+'_'+repr(j),'E'+repr(t)+'_'+repr(k),'T'+repr(j)+'_'+`Nn`],['G'+repr(t)+'_'+repr(j),'E'+repr(t)+'_'+repr(k),'T'+repr(j)+'_'+repr(k)],1])
         return(self.MCRN)
-    def EM(self):
+    def EM(self,trainstart=0):
         self.ECRN=[]
         self.MCRN=[]
         self.EMCRN=[]
-        self.EMCRN=self.EProj()+self.MProj()
+        self.EMCRN=self.EProj()+self.MProj(trainstart)
         return(self.EMCRN)
 def uni_init(n,m,Obs):
     l=len(Obs)
@@ -130,7 +128,7 @@ def ran_init(n,m,Obs,seed=1):
     G=[]
     for i in range(l):
         G=G+np.random.dirichlet(np.ones(n),size=1).tolist()[0]
-    T=[N]*n
+    T=np.random.dirichlet(np.ones(n),size=1).tolist()[0]
     for i in range(n):
         T=T+np.random.dirichlet(np.ones(n),size=1).tolist()[0]
     for i in range(n):
@@ -169,7 +167,7 @@ def ran_init2(n,m,Obs,theta0,rA,rB,seed=1):
          for j in range(len(rA[0])):
              T=T+[rA[i,j]]
     for i in range(n):
-         for j in range(len(rA[0])):
+         for j in range(len(rB[0])):
              T=T+[rB[i,j]]
     Xi=[]
     for t in range(l-1):
@@ -196,7 +194,10 @@ def BW_init(theta0,theta,psi,X):
         for j in range(n_states):
             A[t,j]=0.0
             for i in range(n_states):
-                A[t,j]=A[t,j]+A[t-1,i]*theta[i,j]*psi[j,X[t]]  
+                A[t,j]=A[t,j]+A[t-1,i]*theta[i,j]*psi[j,X[t]]
+            if(A[t,j]<1e-10):
+                A[t,j]=1e-10
+                #print(t,A[t,j],A[t-1,i],theta[i,j],psi[j,X[t]])
     for j in range(n_states):
         B[-1,j]=1.0         
     for t in range(T-2,-1,-1):
@@ -204,6 +205,8 @@ def BW_init(theta0,theta,psi,X):
             B[t,i]=0
             for j in range(n_states):
                 B[t,i]=B[t,i]+theta[i,j]*psi[j,X[t+1]]*B[t+1,j] 
+            if(B[t,i]<1e-10):
+                B[t,i]=1e-10    
     for t in range(n-1):
         for i in range(n_states):
             for j in range(n_states):
@@ -241,6 +244,5 @@ def BW_init(theta0,theta,psi,X):
     for t in range(l-1):
         for i in range(N):
             Xi1=Xi1+list(Xi[t,i,:])
-    #print(len(A1),len(B1),len(E),len(G1),len(T),len(Xi1))
     X=A1+B1+E+G1+T+Xi1       
-    return X       
+    return X   
