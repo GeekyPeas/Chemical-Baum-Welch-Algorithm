@@ -147,8 +147,54 @@ def init_simulator(n,m,l,I,filename):
     open(filename,'w').write('\n'.join(lines))
     start=E.index('T01')
     return start
+def init_simulator2(n,m,l,I,filename):
+    E=[]
+    for t in range(1,l+1):
+        for i in range(1,n+1):
+            E.append('A'+repr(i)+'_'+repr(t))
+    for t in range(1,l+1):
+        for i in range(1,n+1):
+            E.append('B'+repr(i)+'_'+repr(t))
+    for t in range(1,l+1):
+        for i in range(1,m+1):
+            E.append('E'+repr(i)+'_'+repr(t))
+    for t in range(1,l+1):
+        for i in range(1,n+1):
+            E.append('G'+repr(i)+'_'+repr(t))
+    for i in range(n+1):
+        for j in range(1,n+1):
+            E.append('T'+repr(i)+repr(j))
+    for i in range(1,n+1):
+        for k in range(1,m+1):
+            E.append('T'+repr(i)+'_'+repr(k))
+    for t in range(1,l):
+        for i in range(1,n+1):
+            for j in range(1,n+1):
+                E.append('Xi'+repr(i)+repr(j)+'_'+repr(t))
+    dE=E.copy()
+    dE[0]='dA1_1'
+    res=[word + 'dt' for word in dE]
+    dE=',d'.join(res)
+    lines = open(filename).read().splitlines()
+    Lstart=1
+    for line in lines: 
+        if line == "def odesystem(t0, p0):":
+            break
+        Lstart+=1
+    lines[Lstart]='    '+','.join(E)+'=p0'
+    lines[Lstart+4+len(E)]='    return np.array(['+dE+'])'
+    Lstart=1
+    for line in lines: 
+        if line == "        logger.warning('Deprecated argument: --pyplot_labels.')":
+            break
+        Lstart+=1
+    lines[Lstart+1]="    svars="+str(E)
+    lines[Lstart+3] = "    p0 ="+str(I)
+    open(filename,'w').write('\n'.join(lines))
+    start=E.index('T01')
+    return start    
 def crn_Liklihood(filenamecsv,start,Obs,n=2,m=2):
-    model = hmm.CategoricalHMM(n_components=n,n_iter=1,tol=1e-9,init_params=" ",params="te")
+    model = hmm.CategoricalHMM(n_components=n,n_iter=1,tol=1e-9,init_params=" ",params="tes")
     t = []
     T0=[]
     TT=[]

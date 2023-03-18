@@ -62,7 +62,7 @@ class HMMCRN:
         for i in range(1,N+1):
                 for k in range(1,Nn+1):
                     for t in range(1,n+1):
-                        self.MCRN.append([['G'+repr(i)+'_'+repr(t),'E'+repr(k)+'_'+repr(t)],['G'+repr(i)+'_'+repr(t),'E'+repr(k)+'_'+repr(t),'T'+repr(i)+'_'+repr(k)],1])
+                        self.MCRN.append([['G'+repr(i)+'_'+repr(t),'E'+repr(k)+'_'+repr(t),],['G'+repr(i)+'_'+repr(t),'E'+repr(k)+'_'+repr(t),'T'+repr(i)+'_'+repr(k)],1])
                         self.MCRN.append([['T'+repr(i)+'_'+repr(k),'G'+repr(i)+'_'+repr(t)],['G'+repr(i)+'_'+repr(t)],1])
         for i in range(1,N+1):
                 for j in range(1,N):
@@ -70,10 +70,10 @@ class HMMCRN:
                             self.MCRN.append([['Xi'+repr(i)+repr(N)+'_'+repr(t),'T'+repr(i)+repr(j)],['Xi'+repr(i)+repr(N)+'_'+repr(t),'T'+repr(i)+repr(N)],1])
                             self.MCRN.append([['Xi'+repr(i)+repr(j)+'_'+repr(t),'T'+repr(i)+repr(N)],['Xi'+repr(i)+repr(j)+'_'+repr(t),'T'+repr(i)+repr(j)],1])
         #for j in range(1,N+1):
-        #        for k in range(1,Nn):
-        #           for t in range(1,n+1):
-        #                   self.MCRN.append([['G'+repr(t)+'_'+repr(j),'E'+repr(t)+'_'+`Nn`,'T'+repr(j)+'_'+repr(k)],['G'+repr(t)+'_'+repr(j),'E'+repr(t)+'_'+`Nn`,'T'+repr(j)+'_'+`Nn`],1])
-        #                   self.MCRN.append([['G'+repr(t)+'_'+repr(j),'E'+repr(t)+'_'+repr(k),'T'+repr(j)+'_'+`Nn`],['G'+repr(t)+'_'+repr(j),'E'+repr(t)+'_'+repr(k),'T'+repr(j)+'_'+repr(k)],1])
+        #    for k in range(1,Nn):
+        #        for t in range(1,n+1):
+        #                   self.MCRN.append([['G'+repr(j)+'_'+repr(t),'E'+repr(Nn)+'_'+repr(t),'T'+repr(j)+'_'+repr(k)],['G'+repr(j)+'_'+repr(t),'E'+repr(Nn)+'_'+repr(t),'T'+repr(j)+'_'+repr(Nn)],1])
+        #                   self.MCRN.append([['G'+repr(j)+'_'+repr(t),'E'+repr(k)+'_'+repr(t),'T'+repr(j)+'_'+repr(Nn)],['G'+repr(j)+'_'+repr(t),'E'+repr(k)+'_'+repr(t),'T'+repr(j)+'_'+repr(k)],1])
         return(self.MCRN)
     def EM(self,trainstart=0):
         self.ECRN=[]
